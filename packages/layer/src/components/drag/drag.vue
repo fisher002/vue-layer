@@ -39,6 +39,10 @@
 </template>
 <script>
 import helper from "../../helper/helper.js";
+/**
+ * 默认层级
+ */
+const DEFAULT_ZINDEX = 1000;
 export default {
   data() {
     return {
@@ -138,7 +142,7 @@ export default {
       return y;
     },
     resetZIndex() {
-      let max = 500;
+      let max = DEFAULT_ZINDEX;
       let keys = Object.keys(this.cls);
       let doms = document.querySelectorAll("." + keys[0]); //vl-notify-iframe
       let domZindex = 0;
@@ -151,8 +155,11 @@ export default {
           max = value;
         }
       }
-      if (domZindex == max && max != 500) {
+      if (domZindex == max && max != DEFAULT_ZINDEX) {
         return;
+      }
+      if(this.options.zIndex && this.options.zIndex > max) {
+        max = this.options.zIndex;
       }
       //预留遮罩层z-index
       this.zindex = max + 2;
